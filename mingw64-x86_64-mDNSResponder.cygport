@@ -1,0 +1,30 @@
+CROSS_HOST="x86_64-w64-mingw32"
+inherit cross
+
+NAME="mingw64-x86_64-mDNSResponder"
+VERSION=625.41.2
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Bonjour Zeroconf client library for Win64 toolchain"
+DESCRIPTION="Bonjour, also known as zero-configuration networking, enables
+automatic discovery of computers, devices, and services on IP networks using
+industry standard IP protocols."
+HOMEPAGE="http://developer.apple.com/opensource/"
+SRC_URI="http://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-${VERSION}.tar.gz"
+SRC_DIR="mDNSResponder-${VERSION}"
+PATCH_URI="
+	625.41.2-mingw.patch
+"
+
+src_compile() {
+	lndirs
+	cd ${B}/mDNSWindows/DLL
+	cygmake -j1 CC=${CC} CFLAGS_DEBUG="${CFLAGS}" RC=${RC}
+}
+
+src_install() {
+	cd ${B}
+	dobin mDNSWindows/DLL/build/prod/*.dll
+	dolib mDNSWindows/DLL/build/prod/*.a
+	doinclude mDNSShared/dns_sd.h
+}
