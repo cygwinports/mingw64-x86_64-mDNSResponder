@@ -1,6 +1,6 @@
 --- origsrc/mDNSResponder-625.41.2/mDNSShared/CommonServices.h	2016-03-11 03:47:07.000000000 -0600
 +++ src/mDNSResponder-625.41.2/mDNSShared/CommonServices.h	2016-09-08 18:28:28.669290600 -0500
-@@ -260,6 +260,10 @@ extern "C" {
+@@ -260,11 +260,15 @@ extern "C" {
          #pragma warning( disable:4127 ) // Disable "conditional expression is constant" warning for debug macros.
          #pragma warning( disable:4706 ) // Disable "assignment within conditional expression" for Microsoft headers.
  
@@ -11,6 +11,12 @@
      #endif
  
      #include    <windows.h>
+     #include    <winsock2.h>
+-    #include    <Ws2tcpip.h>
++    #include    <ws2tcpip.h>
+ 
+     #if ( defined( _MSC_VER ) )
+         #pragma warning( default:4706 )
 @@ -474,7 +478,7 @@ typedef int socklen_t;
  // - Windows
  
@@ -39,6 +45,17 @@
      typedef unsigned int pid_t;
      typedef unsigned int socklen_t;
  #endif
+--- origsrc/mDNSResponder-765.50.9/mDNSWindows/mDNSWin32.c	2016-09-13 17:37:18.000000000 -0500
++++ src/mDNSResponder-765.50.9/mDNSWindows/mDNSWin32.c	2017-09-13 11:53:30.246082900 -0500
+@@ -40,7 +40,7 @@
+ #include	"Secret.h"
+ #include	<dns_sd.h>
+ 
+-#include	<Iphlpapi.h>
++#include	<iphlpapi.h>
+ #include	<mswsock.h>
+ #include	<process.h>
+ #include	<ntsecapi.h>
 --- origsrc/mDNSResponder-625.41.2/mDNSWindows/DLL/Makefile	1969-12-31 18:00:00.000000000 -0600
 +++ src/mDNSResponder-625.41.2/mDNSWindows/DLL/Makefile	2016-09-08 19:02:14.062669000 -0500
 @@ -0,0 +1,59 @@
